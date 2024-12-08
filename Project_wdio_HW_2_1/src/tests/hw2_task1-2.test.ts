@@ -14,9 +14,12 @@ describe('Intaractions with dynamic elements', () => {
     expect(dynamicControlsPageContent.title).toBe(mainTitleText);
     expect(dynamicControlsPageContent.subheader).toBe(subheaderText);
   });
-  it('Sould unable checkbox and then remove and return checkbox by click on button', async function () {
+  it('Sould unable checkbox', async function () {
     await dynamicControlsLocators.checkbox().click();
     await expect(dynamicControlsLocators.checkbox()).toBeChecked();
+  });
+
+  it('Sould remove checkbox by click on button', async function () {
     await dynamicControlsLocators.removeButton().click();
     await dynamicControlsLocators
       .checkbox()
@@ -24,9 +27,13 @@ describe('Intaractions with dynamic elements', () => {
         timeout: 5000,
         timeoutMsg: 'Checkbox has not disappeared in 5 sec',
       });
-    expect(dynamicControlsLocators.addButton().isDisplayed());
     const removeConfirmationText = (await dynamicControlsLocators.removedConfirmation().getText()).trim();
     expect(dynamicControlsPageContent.removeConfirmation).toBe(removeConfirmationText);
+  });
+
+  it('Sould return checkbox by click on Add button', async function () {
+    await dynamicControlsLocators.removeButton().click();
+    expect(dynamicControlsLocators.addButton().isDisplayed());
     await dynamicControlsLocators.addButton().click();
     await dynamicControlsLocators
       .checkbox()
