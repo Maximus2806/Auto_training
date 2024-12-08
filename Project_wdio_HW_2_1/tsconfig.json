@@ -27,5 +27,5 @@
     "include": [
         "./src/tests/**/*.test.ts",
         "wdio.conf.ts"
-    ]
+, "src/tests/hw3_task2_spinners.test.ts"    ]
 }
