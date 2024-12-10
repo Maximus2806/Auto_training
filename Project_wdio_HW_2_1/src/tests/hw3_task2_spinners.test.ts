@@ -17,19 +17,14 @@ describe('Wait for all spinners to hide', () => {
     await salesPortalLocators.loginButton().click();
     await salesPortalLocators.welcomeText().waitForDisplayed();
     const spinnersLocator = '.spinner-border';
+    const spinners = await $$(spinnersLocator).getElements();
     await browser.waitUntil(
       async () => {
-        const spinners = await $$(spinnersLocator);
-        for (const spiner of spinners) {
-          if (await spiner.isDisplayed()) {
-            return false;
-          }
-        }
-        return true;
+        return await spinners.every(async (spinner) => !(await spinner.isDisplayed()))        
       },
       {
         timeout: 5000,
-        timeoutMsg: 'Some of spinners are still displayed',
+        timeoutMsg: `Some of spinners are still displayed on the home page after 5 sec`,
       }
     );
     const actualUserName = (await salesPortalLocators.loggedUserName().getText()).trim();
