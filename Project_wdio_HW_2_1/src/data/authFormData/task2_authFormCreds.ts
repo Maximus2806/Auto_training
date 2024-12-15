@@ -4,7 +4,7 @@ export const loginRegisterFormData = {
   messageRegister: 'Successfully registered! Please, click Back to return on login page',
   messageLogin: 'Hello, maximus!',
   loginTitle: 'Login',
-  registerTitle: 'Register',
+  registerTitle: 'Registration',
   userNameLabel: 'Username',
   passwordLabel: 'Password',
 };
@@ -53,7 +53,7 @@ export const invalidCredentialsRegister = [
     username: 'ma',
     password: 'Abcd1234#!',
     testName: 'Should not accept username less than 3 characters length',
-    message: 'Password should contain at least 3 characters',
+    message: 'Username should contain at least 3 characters',
   },
   {
     username: 'LongNameOf41CharactersNameOf41Characters1',
