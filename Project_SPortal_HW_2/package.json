@@ -1,0 +1,21 @@
+{
+  "name": "Project_SPortal_HW_2",
+  "type": "module",
+  "devDependencies": {
+    "@types/lodash": "^4.17.13",
+    "@types/mocha": "^10.0.10",
+    "@wdio/allure-reporter": "^9.2.14",
+    "@wdio/cli": "^9.4.1",
+    "@wdio/local-runner": "^9.4.1",
+    "@wdio/mocha-framework": "^9.2.8",
+    "@wdio/spec-reporter": "^9.2.14",
+    "@wdio/visual-service": "^6.2.2"
+  },
+  "scripts": {
+    "test": "wdio run ./wdio.conf.ts"
+  },
+  "dependencies": {
+    "D": "^1.0.0",
+    "lodash": "^4.17.21"
+  }
+}
