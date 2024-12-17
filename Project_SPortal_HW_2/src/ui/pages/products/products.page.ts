@@ -1,4 +1,5 @@
 import { SalesPortalPage } from '../salesPortal.page';
+import productDetailsModal from './details.modal';
 
 class ProductsPage extends SalesPortalPage {
   readonly ['Add New Product'] = 'button.page-title-button';
@@ -10,21 +11,20 @@ class ProductsPage extends SalesPortalPage {
   readonly ['Product creation date in table'] = (productName: string) => `${this['Table row'](productName)}/td[4]`;
   readonly ['Product Delete button in table'] = (productName: string) =>
     `${this['Table row'](productName)}//button[@title="Delete"]`;
+  readonly ['Product Details button in table'] = (productName: string) =>
+    `${this['Table row'](productName)}//button[@title="Details"]`;
   readonly ['Search Button'] = 'button#search-products';
   readonly ['Search input'] = "input[type='search']";
   readonly ['Table body'] = '//tbody/tr';
+  readonly ['Modal Details'] = productDetailsModal;
 
   async clickOnAddNewProduct() {
     await this.click(this['Add New Product']);
   }
 
-  async waitForPageOpened(): Promise<void> {
+  async waitForPageOpened() {
     await this.waitForDisplayed(this.Title);
     await this.waitForSpinnersToBeHidden('Products list');
-  }
-
-  async getEmptyTableText() {
-    return this.getText(this['Table row']('No records created yet'));
   }
 
   async getProductFromTable(productName: string) {
@@ -40,46 +40,40 @@ class ProductsPage extends SalesPortalPage {
     };
   }
 
-  async getSearchResults(productName: string) {
-    await this.fillSearchInput(productName);
+  async getProductsFromTable() {
+    const tableRows = await this.findArrayOfElements(this['Table body']);
+    const results = await Promise.all(
+      await tableRows.map(async (_, i) => {
+        const name = await this.getText(`${this['Table body']}[${i + 1}]/td[1]`);
+        const price = await this.getText(`${this['Table body']}[${i + 1}]/td[2]`);
+        const manufacturer = await this.getText(`${this['Table body']}[${i + 1}]/td[3]`);
+        return {
+          name,
+          price: +price.replace('$', ''),
+          manufacturer,
+        };
+      })
+    );
+    return results;
+  }
+
+  async getSearchResults(searchInput: string) {
+    await this.fillSearchInput(searchInput);
     await this.clickOnSearchButton();
     await this.waitForSpinnersToBeHidden('Products list');
-    const tableRows = await this.findArrayOfElements(this['Table body']);
-    if (tableRows.length > 1) {
-      const results = await Promise.all(
-        await tableRows.map(async (_, i) => {
-          const name = await this.getText(`${this['Table body']}[${i + 1}]/td[1]`);
-          const price = await this.getText(`${this['Table body']}[${i + 1}]/td[2]`);
-          const manufacturer = await this.getText(`${this['Table body']}[${i + 1}]/td[3]`);
-          return {
-            name,
-            price: parseFloat(price.replace('$', '')),
-            manufacturer,
-          };
-        })
-      );
-      return results;
-    }
-
     const firstRowColumns = await this.findArrayOfElements(`${this['Table body']}[1]/td`);
     if (firstRowColumns.length === 1) {
       return await this.getText(`${this['Table body']}[1]/td`);
     }
-    
-    const name = await this.getText(`${this['Table body']}[1]/td[1]`);
-    const price = await this.getText(`${this['Table body']}[1]/td[2]`);
-    const manufacturer = await this.getText(`${this['Table body']}[1]/td[3]`);
-    return [
-      {
-        name,
-        price: parseFloat(price.replace('$', '')),
-        manufacturer,
-      },
-    ];
+    return await this.getProductsFromTable();
   }
 
   async clickOnDeleteProductButton(productName: string) {
     await this.click(this['Product Delete button in table'](productName));
+  }
+
+  async clickOnProductDetailsButton(productName: string) {
+    await this.click(this['Product Details button in table'](productName));
   }
 
   async clickOnSearchButton() {

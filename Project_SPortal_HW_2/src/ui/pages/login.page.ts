@@ -22,7 +22,7 @@ class LoginPage extends SalesPortalPage {
   }
 
   async open() {
-    await this.openMainPage("/aqa-course-project")
+    await this.openPage('/aqa-course-project');
   }
 }
 

@@ -1,21 +1,26 @@
-import { SalesPortalPage } from '../salesPortal.page';
+import { BaseModal } from '../base.modal';
 
-class DeleteProductModal extends SalesPortalPage {
+class DeleteProductModal extends BaseModal {
   readonly ['Modal container'] = '//div[@role="dialog"]';
-  readonly ['Delete button'] = `${this['Modal container']}//button[@type="submit"]`;
-  readonly ['Cancel button'] = `${this['Modal container']}//button[contains(@class, "btn-secondary")]`;
 
   async waitForPageOpened(): Promise<void> {
     await this.waitForDisplayed(this['Modal container']);
-  };
+  }
 
-  async waitForDisappeared(){
-    await this.waitForDisplayed(this['Modal container'], true)
+  async waitForDisappeared() {
+    await this.waitForDisplayed(this['Modal container'], true);
+  }
 
-  };
+  async clickOnActionButton() {
+    await this.click(this['Action button']);
+  }
 
-  async clickOnDeleteButton(){
-    await this.click(this['Delete button']);
+  async clickOnCloseModalButton() {
+    await this.click(this['Close modal button']);
+  }
+
+  async clickOnCancelButton() {
+    await this.click(this['Cancel button']);
   }
 }
 

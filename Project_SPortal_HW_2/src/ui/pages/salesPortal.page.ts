@@ -1,20 +1,46 @@
-import { BasePage } from "./base.page";
+import { BasePage } from './base.page';
+import { GetTextMethod } from '../../data/types/base.types';
 
 export abstract class SalesPortalPage extends BasePage {
-  readonly Notification = ".toast-body";
-  readonly Spinner = ".spinner-border";
-  readonly CrossIcon = ".toast-body~[title='Close']"
+  readonly ['Notification container'] = 'div.toast-container';
+  readonly Notification = `${this['Notification container']} .toast-body`;
+  readonly Spinner = '.spinner-border';
+  readonly CrossIcon = '.toast-body~[title="Close"]';
 
   abstract waitForPageOpened(): Promise<void>;
 
-  async getNotificationText() {
-    await this.waitForDisplayed(this.Notification);
-    return await this.getText(this.Notification);
-  };
+  async getNotificationText(text: string, method: GetTextMethod = 'with') {
+    const notification = await this.getNotificationByText(text, method);
+    return await notification.getText();
+  }
+
+  async getNotificationByText(text: string, method: GetTextMethod = 'with') {
+    let notification: WebdriverIO.Element | undefined;
+    await browser.waitUntil(
+      async () => {
+        const notifications = await this.findArrayOfElements(this.Notification);
+        const foundNotification = await notifications.find<WebdriverIO.Element>(async (n) => {
+          const notificationText = await n.getText();
+          return method === 'contains' ? notificationText.includes(text) : notificationText === text;
+        });
+        if (foundNotification) {
+          notification = foundNotification;
+        }
+        return foundNotification;
+      },
+      {
+        timeout: 10000,
+        timeoutMsg: `Notification ${method} text ${text} not found`,
+      }
+    );
+    if (!notification) throw notification;
+
+    return notification;
+  }
 
   async clickNotificationCloseIcon() {
-    await this.click(this.CrossIcon)
-  };
+    await this.click(this.CrossIcon);
+  }
 
   async waitForSpinnersToBeHidden(page: string) {
     const spinners = await this.findArrayOfElements(this.Spinner);
