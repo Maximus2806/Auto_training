@@ -2,6 +2,7 @@ import { ICredentials } from '../../data/credentials';
 import homePage from '../pages/home.page';
 import logInPage from '../pages/logIn.page';
 import { SalesPortalPageService } from './salesPortalPage.service';
+import { ADMIN_USERNAME, ADMIN_PASSWORD } from '../../../src/config/environment'
 
 class LogInPageService extends SalesPortalPageService {
   private logInPage = logInPage;
@@ -19,8 +20,8 @@ class LogInPageService extends SalesPortalPageService {
 
   async loginAsAdmin() {
     await this.login({
-      email: 'aqacourse@gmail.com',
-      password: 'password',
+      email: ADMIN_USERNAME,
+      password: ADMIN_PASSWORD,
     });
   }
 }

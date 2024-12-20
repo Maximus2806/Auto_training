@@ -1,3 +1,4 @@
+import { SALES_PORTAL_URL } from '../../config/environment';
 import { ICredentials } from '../../data/credentials';
 import { SalesPortalPage } from './salesPortal.page';
 
@@ -22,7 +23,7 @@ class LoginPage extends SalesPortalPage {
   }
 
   async open() {
-    await this.openPage('/aqa-course-project');
+    await this.openPage(SALES_PORTAL_URL);
   }
 }
 

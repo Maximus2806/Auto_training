@@ -30,9 +30,10 @@ describe('[UI] [Products] E2E three layer structure', () => {
     await productsPageService.validateProductDataFromNodal(createdProduct);
   });
   it('Should create product and find it whith search', async function () {
-    const createdProduct = await addNewProductPageService.createNewProduct(newProduct);
-    await productsPageService.validateNotification(NOFITICATIONS.PRODUCT_CREATED);
+    const createdProduct = await addNewProductPageService.createNewProduct(newProduct);    
+    await productsPageService.validateNotification(NOFITICATIONS.PRODUCT_CREATED);    
     await productsPageService.validateProductDataFromNodal(createdProduct);
+    await browser.pause(2000)
     await productsPageService.validateSearchSingleProduct(createdProduct.name, createdProduct);
   });
 });

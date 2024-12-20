@@ -7,9 +7,8 @@ class AddNewProductPageService {
   private addNewProductPage = addNewProductPage;
   private productsPage = productsPage;
 
-  async createNewProduct(productDataInput?: IProduct) {
-    let productData: IProduct;
-    productData = productDataInput ? generateProductData(productDataInput) : generateProductData();
+  async createNewProduct(productDataInput?: IProduct) {    
+    const productData = generateProductData(productDataInput);
     await this.addNewProductPage.fillInputs(productData);
     await this.addNewProductPage.clickOnSaveButton();
     await this.productsPage.waitForPageOpened();
