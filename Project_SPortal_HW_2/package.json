@@ -2,6 +2,7 @@
   "name": "Project_SPortal_HW_2",
   "type": "module",
   "devDependencies": {
+    "@faker-js/faker": "^9.3.0",
     "@tsconfig/node18": "^18.2.4",
     "@types/dotenv": "^6.1.1",
     "@types/lodash": "^4.17.13",
@@ -19,12 +20,15 @@
   "scripts": {
     "test": "wdio run ./wdio.conf.ts",
     "test:ui-products": "npm run test -- --suite ui_products",
-    "test:ui-products-sorting": "npm run test -- --suite ui_products_sorting"
+    "test:ui-products-sorting": "npm run test -- --suite ui_products_sorting",
+    "report": "allure generate allure-results -o allure-report --clean",
+    "report-open": "npm run report && allure open allure-report"
   },
   "dependencies": {
     "allure-commandline": "^2.32.0",
     "D": "^1.0.0",
     "dotenv": "^16.4.7",
+    "faker": "^6.6.6",
     "lodash": "^4.17.21",
     "rimraf": "^6.0.1"
   }

@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import { rimraf } from 'rimraf';
 dotenv.config();
 export const config: WebdriverIO.Config = {
   //
@@ -169,8 +170,9 @@ export const config: WebdriverIO.Config = {
    * @param {object} config wdio configuration object
    * @param {Array.<Object>} capabilities list of capabilities details
    */
-  // onPrepare: function (config, capabilities) {
-  // },
+  onPrepare: function (config, capabilities) {
+    rimraf.sync("./allure-results");
+  },
   /**
    * Gets executed before a worker process is spawned and can be used to initialize specific service
    * for that worker as well as modify runtime environments in an async fashion.

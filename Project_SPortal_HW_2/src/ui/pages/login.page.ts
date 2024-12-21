@@ -1,5 +1,6 @@
 import { SALES_PORTAL_URL } from '../../config/environment';
 import { ICredentials } from '../../data/credentials';
+import { logStep } from '../../utils/reporter/decorators';
 import { SalesPortalPage } from './salesPortal.page';
 
 class LoginPage extends SalesPortalPage {
@@ -22,6 +23,7 @@ class LoginPage extends SalesPortalPage {
     await this.setValue(this['Password input'], credentials.password);
   }
 
+  // @logStep("Open sales portal page")
   async open() {
     await this.openPage(SALES_PORTAL_URL);
   }
