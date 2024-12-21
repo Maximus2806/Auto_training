@@ -5,13 +5,14 @@ import addNewProductPage from '../../pages/Products/addNewProduct.page';
 import { generateProductData } from '../../../data/Products/generateProduct';
 import { NOFITICATIONS } from '../../../data/notifications';
 import deleteProductModal from '../../pages/Products/deleteProductModal';
+import { ADMIN_USERNAME, ADMIN_PASSWORD } from '../../../config/environment';
 import _ from 'lodash';
 
 describe('[UI] [Products] E2E two layer structure', () => {
   beforeEach(async function () {
     await loginPage.open();
     await loginPage.waitForPageOpened();
-    await loginPage.fillCredentials({ email: 'aqacourse@gmail.com', password: 'password' });
+    await loginPage.fillCredentials({ email: ADMIN_USERNAME, password: ADMIN_PASSWORD });
     await loginPage.clickOnLoginButton();
     await homePage.waitForPageOpened();
   });

@@ -9,8 +9,8 @@ class HomePage extends SalesPortalPage {
   }
 
   async waitForPageOpened(): Promise<void> {
-    await this.waitForDisplayed(this['Welcome label']);
     await this.waitForSpinnersToBeHidden('Home');
+    await this.waitForDisplayed(this['Welcome label']);    
   }
 }
 

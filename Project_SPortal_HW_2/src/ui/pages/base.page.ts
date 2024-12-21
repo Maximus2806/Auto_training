@@ -1,3 +1,6 @@
+import { at } from 'lodash';
+import { PRODUCT_TABLE_HEADERS } from '../../data/products/productTableHeaders';
+
 export abstract class BasePage {
   async findElement(selector: string) {
     return $(selector);
@@ -36,6 +39,12 @@ export abstract class BasePage {
     const element = await this.waitForDisplayed(selector);
     const text = await element.getText();
     return text;
+  }
+
+  async getAttribute(selector: string, name: string) {
+    const element = await this.waitForDisplayed(selector);
+    const atribute = await element.getAttribute(name);
+    return atribute;
   }
 
   async openPage(url: string) {

@@ -1,5 +1,6 @@
 import { SalesPortalPage } from '../salesPortal.page';
 import productDetailsModal from './details.modal';
+import { PRODUCT_TABLE_HEADERS } from '../../../data/products/productTableHeaders'
 
 class ProductsPage extends SalesPortalPage {
   readonly ['Add New Product'] = 'button.page-title-button';
@@ -16,7 +17,12 @@ class ProductsPage extends SalesPortalPage {
   readonly ['Search Button'] = 'button#search-products';
   readonly ['Search input'] = "input[type='search']";
   readonly ['Table body'] = '//tbody/tr';
+  readonly ['Sorting arrow down'] = '.bi-arrow-down';
+  readonly ['Sorting arrow up'] = '.bi-arrow-up';
+  readonly ['Product header title'] = (title: PRODUCT_TABLE_HEADERS) => `//table/thead/tr//div[.='${title}']`
+  
   readonly ['Modal Details'] = productDetailsModal;
+  //Connected product details modal page
 
   async clickOnAddNewProduct() {
     await this.click(this['Add New Product']);
@@ -28,15 +34,17 @@ class ProductsPage extends SalesPortalPage {
   }
 
   async getProductFromTable(productName: string) {
-    const [name, price, manufacturer] = await Promise.all([
+    const [name, price, manufacturer, createdOn] = await Promise.all([
       this.getText(this['Product name in table'](productName)),
       this.getText(this['Product price in table'](productName)),
       this.getText(this['Product manufacturer in table'](productName)),
+      this.getText(this['Product creation date in table'](productName))
     ]);
     return {
       name,
       price: +price.replace('$', ''),
       manufacturer,
+      createdOn
     };
   }
 
@@ -47,10 +55,12 @@ class ProductsPage extends SalesPortalPage {
         const name = await this.getText(`${this['Table body']}[${i + 1}]/td[1]`);
         const price = await this.getText(`${this['Table body']}[${i + 1}]/td[2]`);
         const manufacturer = await this.getText(`${this['Table body']}[${i + 1}]/td[3]`);
+        const createdOn = await this.getText(`${this['Table body']}[${i + 1}]/td[4]`)
         return {
           name,
           price: +price.replace('$', ''),
           manufacturer,
+          createdOn
         };
       })
     );
@@ -82,6 +92,14 @@ class ProductsPage extends SalesPortalPage {
 
   async fillSearchInput(productName: string) {
     await this.setValue(this['Search input'], productName);
+  }
+
+  async clickOnColumnTitle(title: PRODUCT_TABLE_HEADERS) {
+    await this.click(this['Product header title'](title))
+  }
+
+  async getHeaderAtribute(header:PRODUCT_TABLE_HEADERS, name:string) {
+    return await this.getAttribute(this['Product header title'](header), name)
   }
 }
 

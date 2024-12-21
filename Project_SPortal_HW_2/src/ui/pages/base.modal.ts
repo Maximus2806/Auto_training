@@ -1,6 +1,6 @@
-import { BasePage } from './base.page';
+import { SalesPortalPage } from './salesPortal.page';
 
-export abstract class BaseModal extends BasePage {
+export abstract class BaseModal extends SalesPortalPage {
   protected readonly 'Action button' = '//div[@class="modal-footer"]//button[1]';
   protected readonly 'Cancel button' = '//div[@class="modal-footer"]//button[2]';
   protected readonly 'Close modal button' = '//div[@class="modal-header"]/button';
@@ -10,4 +10,5 @@ export abstract class BaseModal extends BasePage {
   abstract clickOnCloseModalButton(): void;
 
   abstract clickOnActionButton(): void;
+  
 }
