@@ -12,7 +12,7 @@ describe('[UI] [Products] E2E two layer structure', () => {
   beforeEach(async function () {
     await loginPage.open();
     await loginPage.waitForPageOpened();
-    await loginPage.fillCredentials({ email: ADMIN_USERNAME, password: ADMIN_PASSWORD });
+    await loginPage.fillCredentials({ username: ADMIN_USERNAME, password: ADMIN_PASSWORD });
     await loginPage.clickOnLoginButton();
     await homePage.waitForPageOpened();
   });

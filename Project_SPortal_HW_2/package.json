@@ -4,6 +4,7 @@
   "devDependencies": {
     "@faker-js/faker": "^9.3.0",
     "@tsconfig/node18": "^18.2.4",
+    "@types/ajv": "^0.0.5",
     "@types/dotenv": "^6.1.1",
     "@types/lodash": "^4.17.13",
     "@types/mocha": "^10.0.10",
@@ -25,7 +26,10 @@
     "report-open": "npm run report && allure open allure-report"
   },
   "dependencies": {
+    "@types/chai": "^5.0.1",
+    "ajv": "^8.17.1",
     "allure-commandline": "^2.32.0",
+    "chai": "^5.1.2",
     "D": "^1.0.0",
     "dotenv": "^16.4.7",
     "faker": "^6.6.6",

@@ -28,6 +28,7 @@ export const config: WebdriverIO.Config = {
   specs: [
     // ToDo: define location for spec files here
     './src/ui/tests/**/*.test.ts',
+    './src/api/tests/**/*.test.ts'
   ],
   // Patterns to exclude.
   exclude: [
@@ -63,7 +64,10 @@ export const config: WebdriverIO.Config = {
   capabilities: [
     {
       // capabilities for local browser web tests
-      browserName: 'chrome', // or "firefox", "microsoftedge", "safari"
+      browserName: 'chrome',
+      "goog:chromeOptions": {
+        args: ["headless", "disable-gpu"]
+      } // or "firefox", "microsoftedge", "safari"
     },
   ],
 
