@@ -28,6 +28,7 @@
     },
     "include": [
         "./src/ui/tests/**/*.test.ts",
+        "./src/api/tests/**/*.test.ts",
         "wdio.conf.ts"
     ]
 }
