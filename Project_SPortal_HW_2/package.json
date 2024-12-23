@@ -2,20 +2,34 @@
   "name": "Project_SPortal_HW_2",
   "type": "module",
   "devDependencies": {
+    "@faker-js/faker": "^9.3.0",
+    "@tsconfig/node18": "^18.2.4",
+    "@types/dotenv": "^6.1.1",
     "@types/lodash": "^4.17.13",
     "@types/mocha": "^10.0.10",
+    "@types/rimraf": "^3.0.2",
     "@wdio/allure-reporter": "^9.2.14",
-    "@wdio/cli": "^9.4.1",
+    "@wdio/cli": "^9.4.3",
     "@wdio/local-runner": "^9.4.1",
     "@wdio/mocha-framework": "^9.2.8",
     "@wdio/spec-reporter": "^9.2.14",
-    "@wdio/visual-service": "^6.2.2"
+    "@wdio/visual-service": "^6.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
   },
   "scripts": {
-    "test": "wdio run ./wdio.conf.ts"
+    "test": "wdio run ./wdio.conf.ts",
+    "test:ui-products": "npm run test -- --suite ui_products",
+    "test:ui-products-sorting": "npm run test -- --suite ui_products_sorting",
+    "report": "allure generate allure-results -o allure-report --clean",
+    "report-open": "npm run report && allure open allure-report"
   },
   "dependencies": {
+    "allure-commandline": "^2.32.0",
     "D": "^1.0.0",
-    "lodash": "^4.17.21"
+    "dotenv": "^16.4.7",
+    "faker": "^6.6.6",
+    "lodash": "^4.17.21",
+    "rimraf": "^6.0.1"
   }
 }

@@ -19,14 +19,14 @@ class ProductDetailsModal extends BaseModal {
 
   async waitForPageOpened() {
     await this.waitForDisplayed(this['Modal container']);
+    await this.waitForSpinnersToBeHidden('Product details modal')
   }
 
   async waitForDisappeared() {
     await this.waitForDisplayed(this['Modal container'], true);
   }
 
-  async getProductData() {
-    console.log(this['Row value by row name']('Name'));
+  async getProductData() {    
     const [name, amount, price, manufacturer, createdOn, notes] = await Promise.all([
       this.getText(this['Row value by row name']('Name')),
       this.getText(this['Row value by row name']('Amount')),
