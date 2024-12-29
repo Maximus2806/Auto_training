@@ -1,67 +1,56 @@
 //TODO: npm run test -- --spec="./src/api/tests/Products/update.test.ts"
-
-import { ADMIN_PASSWORD, ADMIN_USERNAME } from '../../../config/environment';
 import { STATUS_CODES } from '../../../data/api/statusCodes';
 import { generateProductData } from '../../../data/Products/generateProduct';
 import ProductsController from '../../controllers/products.controller';
-import signInController from '../../controllers/signIn.controller';
-import { ICredentials } from '../../../data/credentials';
-import { validateJsonSchema, validateResponse } from '../../../utils/validation/apiValidation';
-import { productResponseSchema } from '../../../data/jsonSchemas/product.schema';
 import { generateRandomId } from '../../../utils/id/radnomId';
+import { SignInApiService } from '../../service/signInApiService.service';
+import productApiService from '../../service/productApiService.service';
 
-describe('[API] [Products] Post', async function () {
-  const loginBody: ICredentials = {
-    username: ADMIN_USERNAME,
-    password: ADMIN_PASSWORD,
-  };
-
-  let token = '';
+describe('[API] [Products] Update', async function () {
+  const signInApiService = new SignInApiService();
   let id = '';
 
   beforeEach(async function () {
-    const loginResponse = await signInController.login(loginBody);
-    expect(loginResponse.status).toBe(STATUS_CODES.OK);
-    token = loginResponse.headers.get('authorization')!;
-    expect(token).not.toBe(undefined);
-    const productData = generateProductData();
-    const createProductResponse = await ProductsController.create(productData, token);
-    expect(createProductResponse.status).toBe(STATUS_CODES.CREATED);
-    const body = await createProductResponse.json();
-    id = body.Product._id;
+    await signInApiService.signInAsAdmin();
+    // const productData = generateProductData();//
+    // const createProductResponse = await ProductsController.create(productData, signInApiService.getToken());//
+    // expect(createProductResponse.status).toBe(STATUS_CODES.CREATED);//
+    const createdProduct = await productApiService.create(signInApiService.getToken());
+    // const body = createProductResponse.body;
+    // const body = createdProduct.
+    id = createdProduct._id;
   });
 
   afterEach(async function () {
-    const response = await ProductsController.delete(id, token);
-    expect(response.status).toBe(STATUS_CODES.DELETED);
+    await productApiService.delete(signInApiService.getToken());
   });
 
   it('Should update product with smoke data', async function () {
-    const producNewtData = generateProductData();
-    const updatedProductResponse = await ProductsController.update(id, producNewtData, token);
-    expect(updatedProductResponse.status).toBe(STATUS_CODES.OK);
-    const udpdatedBody = await updatedProductResponse.json();
-    validateResponse(udpdatedBody, true, null);
-    validateJsonSchema(productResponseSchema, udpdatedBody);
-    const updatedProduct = udpdatedBody.Product;
-    expect(updatedProduct).toMatchObject({ ...producNewtData });
-    const getUpdatedProductResponse = await ProductsController.get(id, token);
-    const body = await getUpdatedProductResponse.json();
-    const product = body.Product;
-    expect(updatedProduct).toEqual({ ...product});
+    const updatedProduct = await productApiService.update(id, signInApiService.getToken());
+    const getUpdatedProductResponse = await ProductsController.get(id, signInApiService.getToken());
+    const product = getUpdatedProductResponse.body.Product;
+    expect(updatedProduct).toEqual({ ...product });
   });
 
   it('Should return 404 error for valid but non existing Id', async function () {
     const producNewtData = generateProductData();
     const nonExistentId = generateRandomId();
-    const updatedProductResponse = await ProductsController.update(nonExistentId, producNewtData, token);
+    const updatedProductResponse = await ProductsController.update(
+      nonExistentId,
+      producNewtData,
+      signInApiService.getToken()
+    );
     expect(updatedProductResponse.status).toBe(STATUS_CODES.NOT_FOUND);
   });
 
   it('Should return 400 error for invalid Id', async function () {
     const producNewtData = generateProductData();
     const invalidId = 'invalidId';
-    const updatedProductResponse = await ProductsController.update(invalidId, producNewtData, token);
+    const updatedProductResponse = await ProductsController.update(
+      invalidId,
+      producNewtData,
+      signInApiService.getToken()
+    );
     expect(updatedProductResponse.status).toBe(STATUS_CODES.BAD_REQUEST);
   });
 

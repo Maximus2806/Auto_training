@@ -28,7 +28,7 @@ export const config: WebdriverIO.Config = {
   specs: [
     // ToDo: define location for spec files here
     './src/ui/tests/**/*.test.ts',
-    './src/api/tests/**/*.test.ts'
+    './src/api/tests/**/*.test.ts',
   ],
   // Patterns to exclude.
   exclude: [
@@ -36,8 +36,10 @@ export const config: WebdriverIO.Config = {
   ],
 
   suites: {
-    ui_products: ['./src/ui/tests/products/**/*.test.ts'],
-    ui_products_sorting: ['./src/ui/tests/products/sort_hw6.test.ts']
+    ui_products: ['./src/ui/tests/Products/**/*.test.ts'],
+    ui_products_sorting: ['./src/ui/tests/Products/sort_hw6.test.ts'],
+    ui_products_hw4: ['./src/ui/tests/Products/e2e_hw4.test.ts'],
+    api_products: ['./src/api/tests/Products/**/*.test.ts']
   },
   //
   // ============
@@ -55,7 +57,7 @@ export const config: WebdriverIO.Config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 10,
+  maxInstances: 3,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -142,11 +144,11 @@ export const config: WebdriverIO.Config = {
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
   reporters: [
-    "spec",
+    'spec',
     [
-      "allure",
+      'allure',
       {
-        outputDir: "allure-results",
+        outputDir: 'allure-results',
         disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: false,
         disableMochaHooks: false,
@@ -175,7 +177,7 @@ export const config: WebdriverIO.Config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    */
   onPrepare: function (config, capabilities) {
-    rimraf.sync("./allure-results");
+    rimraf.sync('./allure-results');
   },
   /**
    * Gets executed before a worker process is spawned and can be used to initialize specific service

@@ -8,7 +8,7 @@ class AddNewProductPageService {
   private addNewProductPage = addNewProductPage;
   private productsPage = productsPage;
 
-  // @logStep("Create product via UI")
+  @logStep("Create product via UI")
   async createNewProduct(productDataInput?: IProduct) {    
     const productData = generateProductData(productDataInput);
     await this.addNewProductPage.fillInputs(productData);

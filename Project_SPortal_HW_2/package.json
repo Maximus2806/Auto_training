@@ -1,10 +1,11 @@
 {
-  "name": "Project_SPortal_HW_2",
+  "name": "project_sportal_hw_2",
   "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^9.3.0",
     "@tsconfig/node18": "^18.2.4",
     "@types/ajv": "^0.0.5",
+    "@types/axios": "^0.9.36",
     "@types/dotenv": "^6.1.1",
     "@types/lodash": "^4.17.13",
     "@types/mocha": "^10.0.10",
@@ -20,8 +21,11 @@
   },
   "scripts": {
     "test": "wdio run ./wdio.conf.ts",
+    "test:spec": "wdio run ./wdio.conf.ts --spec",
     "test:ui-products": "npm run test -- --suite ui_products",
     "test:ui-products-sorting": "npm run test -- --suite ui_products_sorting",
+    "test:ui-products-hw4": "npm run test -- --suite ui_products_hw4",
+    "test:api-products": "npm run test -- --suite api_products",
     "report": "allure generate allure-results -o allure-report --clean",
     "report-open": "npm run report && allure open allure-report"
   },
@@ -29,6 +33,7 @@
     "@types/chai": "^5.0.1",
     "ajv": "^8.17.1",
     "allure-commandline": "^2.32.0",
+    "axios": "^1.7.9",
     "chai": "^5.1.2",
     "D": "^1.0.0",
     "dotenv": "^16.4.7",

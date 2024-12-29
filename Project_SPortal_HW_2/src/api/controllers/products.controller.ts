@@ -1,37 +1,46 @@
 import { apiConfig } from '../../config/apiConfig';
-import { IProduct } from '../../data/types/product.types';
+import { IProduct, IProductResponse, IProductsResponse } from '../../data/types/product.types';
 import { IRequestOptions } from '../../data/types/api.types';
 import { IGetAllParams } from '../../data/types/api.types';
+import { AxiosApiClient } from '../apiClients/axios.apiClient';
+import { logStep } from '../../utils/reporter/decorators';
 
-class ProductsController {
-  async create(productData: IProduct, token: string) {
-    const url = apiConfig.baseUrl + apiConfig.endpoints.product;
+class ProductsController {  
+  constructor(private apiClient = new AxiosApiClient()){};
+
+  @logStep("Create product via API")
+  async create(productData: IProduct, token: string) {    
     const options: IRequestOptions = {
       method: 'post',
       headers: {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(productData),
+      data: productData,
+      url: apiConfig.endpoints.Products,
+      baseURL: apiConfig.baseUrl
     };
-    return await fetch(url, options);
+    return await this.apiClient.send<IProductResponse>(options);
   }
 
-  async get(productId: string, token: string) {
-    const url = apiConfig.baseUrl + apiConfig.endpoints.product + productId + '/';
+  @logStep("Get product via API")
+  async get(productId: string, token: string) {    
     const options: IRequestOptions = {
       method: 'get',
       headers: {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
+      url: apiConfig.endpoints['Get Product By Id'](productId),
+      baseURL: apiConfig.baseUrl
     };
-    return await fetch(url, options);
+    return await this.apiClient.send<IProductResponse>(options);
   }
 
+  @logStep("Get all products via API")
   async getAll(token: string, params: IGetAllParams = {}) {
     const { manufacturer, search, sortField, sortOrder } = params;
-    let url = apiConfig.baseUrl + apiConfig.endpoints.product + '/';
+    let url = apiConfig.endpoints.Products + '/';
     const queryParams = [];
     if (manufacturer) queryParams.push(`manufacturer=${manufacturer}`);
     if (search) queryParams.push(`search=${search}`);
@@ -47,33 +56,40 @@ class ProductsController {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
+      // url: apiConfig.endpoints.Products,
+      url: url,
+      baseURL: apiConfig.baseUrl
     };
-    return await fetch(url, options);
+    return await this.apiClient.send<IProductsResponse>(options);
   }
 
-  async update(productId: string, productData: IProduct, token: string) {
-    const url = apiConfig.baseUrl + apiConfig.endpoints.product + productId + '/';
+  @logStep("Update product via API")
+  async update(productId: string, productData: IProduct, token: string) {    
     const options: IRequestOptions = {
       method: 'put',
       headers: {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(productData),
+      data: productData,
+      url: apiConfig.endpoints['Get Product By Id'](productId),
+      baseURL: apiConfig.baseUrl
     };
-    return await fetch(url, options);
+    return await this.apiClient.send<IProductResponse>(options);
   }
 
-  async delete(productId: string, token: string) {
-    const url = apiConfig.baseUrl + apiConfig.endpoints.product + productId + '/';
+  @logStep("Delete product via API")
+  async delete(productId: string, token: string) {    
     const options: IRequestOptions = {
       method: 'delete',
       headers: {
         'content-type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
+      url: apiConfig.endpoints['Get Product By Id'](productId),
+      baseURL: apiConfig.baseUrl
     };
-    return await fetch(url, options);
+    return await this.apiClient.send(options);
   }
 }
 

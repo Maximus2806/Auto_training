@@ -6,7 +6,7 @@ class HomePageService {
   private homePage = homePage;
   private productsPage = productsPage;
 
-  // @logStep("Open Products Page")
+  @logStep("Open Products Page")
   async openProductsPage() {
     await this.homePage.clickOnMenuButton('Products');
     await this.productsPage.waitForPageOpened();
