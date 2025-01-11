@@ -6,7 +6,7 @@ import { IProduct, IProductFromTable } from '../../../data/types/product.types';
 import _ from 'lodash';
 import deleteProductModal from '../../pages/Products/deleteProductModal';
 import { SalesPortalPageService } from '../salesPortalPage.service';
-import { PRODUCT_TABLE_HEADERS } from '../../../data/products/productTableHeaders';
+import { PRODUCT_TABLE_HEADERS } from '../../../data/Products/productTableHeaders';
 import { logStep } from '../../../utils/reporter/decorators';
 
 class ProductsPageService extends SalesPortalPageService {
@@ -15,7 +15,7 @@ class ProductsPageService extends SalesPortalPageService {
   private productDetailsModal = productDetailsModal;
   private deleteProductModal = deleteProductModal;
 
-  // @logStep("Open Add New Product Page")
+  @logStep('Open Add New Product Page')
   async openAddNewProductPage() {
     await this.productsPage.clickOnAddNewProduct();
     await this.addNewProductPage.waitForPageOpened();
@@ -38,13 +38,13 @@ class ProductsPageService extends SalesPortalPageService {
     return actualData;
   }
 
-  // @logStep("Verify product data in modal window")
+  @logStep('Verify product data in modal window')
   async validateProductDataFromNodal(product: IProduct) {
     const actualData = _.omit(await this.getProductDataFromModal(product.name), ['createdOn']);
     expect(actualData).toEqual(product);
   }
 
-  // @logStep("Delete product via UI")
+  @logStep('Delete product via UI')
   async deleteProduct(productName: string) {
     await this.productsPage.clickOnDeleteProductButton(productName);
     await this.deleteProductModal.waitForPageOpened();
@@ -53,14 +53,14 @@ class ProductsPageService extends SalesPortalPageService {
     await this.productsPage.waitForPageOpened();
   }
 
-  // @logStep("Check product uniqueness via search")
+  @logStep('Check product uniqueness via search')
   async validateSearchSingleProduct(searchInput: string, product: IProduct) {
     const searchResult = await this.productsPage.getSearchResults(searchInput);
     expect(_.omit(searchResult[0] as Partial<IProduct>, ['createdOn'])).toEqual(_.omit(product, ['amount', 'notes']));
     expect(searchResult.length).toBe(1);
   }
 
-  // @logStep("Check search output matches input")
+  @logStep('Check search output matches input')
   async validateSearchMatch(searchInput: string) {
     const searchResult = await this.productsPage.getSearchResults(searchInput);
     if (Array.isArray(searchResult)) {
@@ -68,7 +68,7 @@ class ProductsPageService extends SalesPortalPageService {
     } else expect(searchResult).toBe(NOFITICATIONS.NO_SEARCH_RESULTS);
   }
 
-  // @logStep("Sort table by provided column and order")
+  @logStep('Sort table by provided column and order')
   async sortByColumnTitle(title: PRODUCT_TABLE_HEADERS, order: 'asc' | 'desc') {
     const isCurrent = (await this.productsPage.getHeaderAtribute(title, 'current')) === 'true';
     const currentDirection = await this.productsPage.getHeaderAtribute(title, 'direction');
@@ -105,7 +105,7 @@ class ProductsPageService extends SalesPortalPageService {
       .join('') as keyof IProductFromTable;
   }
 
-  // @logStep("Verify sorting result is correct")
+  @logStep('Verify sorting result is correct')
   async verifySortingResults(header: PRODUCT_TABLE_HEADERS, order: 'asc' | 'desc') {
     await this.sortByColumnTitle(header, order);
     const field = this.mapEnumToKey(header);
