@@ -56,3 +56,9 @@ Then(/^I wait that "([^"]*)" page is loaded$/,
     await pages[page].waitForPageOpened()
   }
 );
+
+Then(/^I logout from "([^"]*)" page$/, 
+  async function (page: string) {
+    await pages[page].deleteCookies(["Authorization"]);
+  }
+);
