@@ -1,6 +1,6 @@
 import { SalesPortalPage } from "../salesPortal.page";
 
-class DeleteProductModal extends SalesPortalPage {
+export class DeleteProductModal extends SalesPortalPage {
   readonly ["Modal container"] = '//div[@role="dialog"]';
   readonly ["Delete button"] = `${this["Modal container"]}//button[@type="submit"]`;
   readonly ["Cancel button"] = `${this["Modal container"]}//button[contains(@class, "btn-secondary")]`;
@@ -16,6 +16,9 @@ class DeleteProductModal extends SalesPortalPage {
   async clickOnDeleteButton() {
     await this.click(this["Delete button"]);
   }
+  async clickOnCancelButton() {
+    await this.click(this["Cancel button"])
+  }
 }
 
-export default new DeleteProductModal();
+// export default new DeleteProductModal();

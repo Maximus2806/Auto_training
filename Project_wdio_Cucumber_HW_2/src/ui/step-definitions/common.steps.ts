@@ -26,9 +26,11 @@ When(/^I select "([^"]*)" in "([^"]*)" on "([^"]*)" page$/, async function (item
 });
 
 Then(
-  /^I should( not)? see "([^"]*)" (with|contains) text "([^"]*)" on "([^"]*)" page$/,
-  async function (not: string, element: string, compareMethod: string, text: string, page: string) {
-    const actualText = await pages[page].getText(pages[page][element]);
+  /^I should( not)? see "([^"]*)" (with|contains) text "([^"]*)"( on "([^"]*)" on modal)? on "([^"]*)" page$/,
+  async function (not: string, element: string, compareMethod: string, text: string, modal: string, page: string) {
+    const actualText = modal
+      ? await pages[page].getText(pages[page][modal][element])
+      : await pages[page].getText(pages[page][element]);
     if (not) {
       compareMethod === "contains" ? expect(actualText).not.toContain(text) : expect(actualText).not.toBe(text);
     } else {
@@ -62,3 +64,7 @@ Then(/^I logout from "([^"]*)" page$/,
     await pages[page].deleteCookies(["Authorization"]);
   }
 );
+
+When(/^I wait for "([^"]*)" seconds$/, async function (seconds: string) {
+  await browser.pause(+seconds * 1000);
+});

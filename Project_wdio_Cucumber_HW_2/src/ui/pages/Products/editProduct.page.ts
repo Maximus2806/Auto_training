@@ -7,6 +7,10 @@ class EditProductPage extends AddEditProductPage {
   async getTitleText() {
     return await this.getText(this.Title);
   }
+
+  async saveChanges(){
+    await this.click(this["Save Product button"])
+  }
 }
 
 export default new EditProductPage();
