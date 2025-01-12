@@ -1,4 +1,3 @@
-@create
 Feature: [UI] [Create product] [Positive]
   
   Background:
@@ -23,3 +22,6 @@ Feature: [UI] [Create product] [Positive]
     And I click on "Save Product button" on "Add New Product" page
     Then I wait that "Products" page is loaded
     And I should see notification contains text "Product was successfully created" on "Products" page
+    Then I logout from "Products" page
+
+  
