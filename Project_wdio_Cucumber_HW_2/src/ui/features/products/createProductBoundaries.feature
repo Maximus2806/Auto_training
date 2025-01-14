@@ -1,4 +1,3 @@
-@create
 Feature: [UI] [Create product] [Positive]
   
   Background:

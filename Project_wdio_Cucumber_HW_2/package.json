@@ -2,6 +2,9 @@
   "name": "aqa-wdio-3-cucumber",
   "type": "module",
   "devDependencies": {
+    "@types/ajv": "^0.0.5",
+    "@types/axios": "^0.9.36",
+    "@types/chai": "^5.0.1",
     "@types/dotenv": "^6.1.1",
     "@types/lodash": "^4.17.14",
     "@wdio/allure-reporter": "^9.5.0",
@@ -16,7 +19,11 @@
     "report-open": "npm run report && allure open allure-report"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.3.0",
+    "ajv": "^8.17.1",
     "allure-commandline": "^2.32.0",
+    "axios": "^1.7.9",
+    "chai": "^5.1.2",
     "dotenv": "^16.4.7",
     "lodash": "^4.17.21"
   }
