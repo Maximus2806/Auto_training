@@ -28,15 +28,7 @@ export class CustomersListPage extends SalesPortalPage {
   async clickOnFilterButton() {
     await this.click(this["Filter button"])
   }
-
-  async setFilter(value: COUNTRIES) {
-    await this.checkCheckbox(this["Filter check-box"](value), true)
-  }
   
-  async applyFilter() {
-    await this.click(this["Apply filter button"])
-  }
-
   async getAllCustomersFromTable() {
     const tableRows = await this.findElementArray(this['Table Rows']);
 

@@ -3,12 +3,14 @@ import { AddNewCustomerPage } from "../ui/pages/customers/addNewCustomer.page";
 import { CustomersListPage } from "../ui/pages/customers/customers.page";
 import { HomePage } from "../ui/pages/home.page";
 import { SignInPage } from "../ui/pages/signIn.page";
+import { FilterModal } from "../ui/pages/customers/filterModal.page";
 
 interface ISalesPortalPages {
   signInPage: SignInPage;
   homePage: HomePage;
   customersPage: CustomersListPage;
   addNewCustomerPage: AddNewCustomerPage;
+  filterModalPage: FilterModal;
 }
 
 export const test = base.extend<ISalesPortalPages>({
@@ -28,6 +30,10 @@ export const test = base.extend<ISalesPortalPages>({
     const addNewCustomerPage = new AddNewCustomerPage(page);
     await use(addNewCustomerPage);
   },
+  filterModalPage: async ({ page }, use) => {
+    const filterModalPage = new FilterModal(page);
+    await use(filterModalPage)
+  }
 });
 
 export { expect } from "@playwright/test";
